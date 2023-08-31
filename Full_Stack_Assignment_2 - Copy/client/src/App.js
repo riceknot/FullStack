@@ -14,6 +14,7 @@ import productPage from './components/productPage';
 import productCreate from './components/createProduct';
 
 import Register from './components/Register';
+import Login from './components/Login';
 
 function App() {
   return (
@@ -32,8 +33,11 @@ function App() {
           <Route path='/product' Component={productPage} />
           <Route path='/product/create' Component={productCreate} />
           <Route path='/register' Component={Register} />
+          <Route path='/login' Component={Login} />
         </Routes>
       </div>
     </Router>
   );
 }
+
+export default App;
