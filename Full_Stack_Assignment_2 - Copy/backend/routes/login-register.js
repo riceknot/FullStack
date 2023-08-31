@@ -18,7 +18,8 @@ router.route('/register').post(async (req, res) => {
 
         await user.save()  //Save the data into the User collection.
             .then(() => {
-                res.redirect('/login');  //Redirect the user to the login page.
+                console.log('New user registered!');
+                res.send('New user registered!');
             })
             .catch((error) => {
                 console.log(error.message);
@@ -37,7 +38,7 @@ router.route('/login').post(async (req, res) => {
             const result = bcrypt.compare(req.body.password, user.password);   //Use bcrypt to decrypt the password inside the database and compare it with the inputted password.
             if (result) {
                 console.log(`Login successful as ${user.role}!`);
-                return res.redirect(`/${user.role}/${user.id}`);   //Redirect user to URL based on their role and ID.
+                return res.json({ userID: user.id, role: user.role }); //Redirect user to URL based on their role and ID.
             } else {
                 return console.log('Invalid credentials!');
             }
