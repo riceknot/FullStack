@@ -15,7 +15,7 @@ const userSchema = new Schema({
         min: 11,
     },
     phone: {
-        type: Number,
+        type: String,
         required: 'Phone number is required',
         unique: true,
         trim: true
