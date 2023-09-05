@@ -22,27 +22,6 @@ export default function Login() {
     }
 
     return (
-        // <div className="container">
-        //     <div className="Login-form">
-        //         <form onSubmit={handleSubmit}>
-        //             <label>Email or Phone</label>
-        //             <input
-        //                 className="loginInput"
-        //                 type="text"
-        //                 onChange={(e) => { setLoginInput(e.target.value) }}
-        //             />
-
-        //             <label>Password</label>
-        //             <input
-        //                 className="password"
-        //                 type="text"
-        //                 onChange={(e) => { setPassword(e.target.value) }}
-        //             />
-
-        //             <button type="submit">Submit</button>
-        //         </form>
-        //     </div>
-        // </div>
         <div className="container">
             <form onSubmit={handleSubmit}>
             {/* Email input */}
