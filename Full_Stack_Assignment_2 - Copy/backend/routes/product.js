@@ -1,23 +1,19 @@
 const router = require('express').Router();
 let Product = require('../models/product.model');
 
+
 router.route('/').get((req,res) => {
     Product.find()
         .then(product => res.json(product))
         .catch(err => res.status(400).json('Error: ' + err))
 });
 
-router.route('/add').post((req,res) => {
-    const category = req.body.category;
-    const name = req.body.name;
-    const price = req.body.price;
-    // const sellerID = req.body.sellerID;
-
+router.route('/seller/:userID/add').post((req,res) => {
     const newProduct = new Product({
-        category,
-        name,
-        price
-        // sellerID
+        category: req.body.category,
+        name: req.body.name,
+        price: req.body.price,
+        sellerID: req.params.userID
     });
 
     newProduct.save()
