@@ -37,10 +37,10 @@ router.route('/login').post(async (req, res) => {
         const user = await User.findOne({ $or: [{ email: req.body.loginInput }, { phone: req.body.loginInput }] });  //Take user login input and find if it matches any data with either phone or email.
         if (user) {
             const result = bcrypt.compare(req.body.password, user.password);   //Use bcrypt to decrypt the password inside the database and compare it with the inputted password.
-            if (result && user.pending === 'true') {
+            if (result && user.pending) {
                 console.log(`Login successful as ${user.role}!`);
                 return res.json({ userID: user.id, role: user.role }); //Redirect user to URL based on their role and ID.
-            } if(result && user.pending !== 'true'){
+            } else if (result && !user.pending) {
                 return console.log('Not Approve')
             } else {
                 return console.log('Invalid credentials!');
