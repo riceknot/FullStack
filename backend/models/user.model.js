@@ -31,7 +31,7 @@ const userSchema = new Schema({
         type: String,
     },
     pending: {
-        type: String,
+        type: Boolean,
     }
 }, {
     timestamps: true
