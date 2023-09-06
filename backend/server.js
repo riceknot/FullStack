@@ -15,10 +15,11 @@ app.use(express.json());
 
 const productRouter = require('./routes/product');
 const RegisterLoginRouter = require('./routes/login-register');
+const usersAdmin = require('./routes/usersAdmin');
 
 app.use('/', RegisterLoginRouter);
 app.use('/product', productRouter);
-
+app.use('/admin/:userID', usersAdmin);
 
 const url = 'mongodb+srv://khaiminh2001:minh123@bing-chilling.nrj7j40.mongodb.net/USERS?retryWrites=true&w=majority';
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
