@@ -10,6 +10,8 @@ import Product from './components/Product';
 import Register from './components/Register';
 import Login from './components/Login';
 
+import ViewSellers from './components/ViewSellers-Admin';
+
 function App() {
   return (
     <Router>
@@ -22,6 +24,7 @@ function App() {
           <Route path='/product/:productID' Component={Product}/>
           <Route path='/register' Component={Register} />
           <Route path='/login' Component={Login} />
+          <Route path='/admin/:userID' Component={ViewSellers} />
         </Routes>
       </div>
     </Router>
