@@ -33,23 +33,28 @@ export default function Register() {
     return (
         <form onSubmit={handleSubmit}>
             <label>Role:</label><br></br>
-                <select className="role" onChange={(e) => { 
-                    setRole(e.target.value)
-                    {e.target.value === 'seller' ? (
-                        setApproval('false')
-                    ):(
-                        setApproval('true')
-                    )}
-                    {e.target.value === 'customer' ? (
+            <select className="role" onChange={(e) => {
+                setRole(e.target.value)
+                {
+                    e.target.value === 'seller' ? (
+                        setApproval(false)
+                    ) : (
+                    setApproval(true)
+                )
+                }
+                {
+                    e.target.value === 'customer' ? (
                         setBusinessName('')
-                    ):(
+                    ) : (
                         setAddress('')
-                    )}
-                }}>
-                    <option value="">Choose a role</option>
-                    <option value="seller">Seller</option>
-                    <option value="customer">Customer</option>
-                </select>
+                    )
+                }
+            }}>
+                <option value="">Choose a role</option>
+                <option value="seller">Seller</option>
+                <option value="customer">Customer</option>
+                <option value="admin">Admin TESTING ONLY</option>
+            </select>
             <div className="form-outline mb-4">
                 <label>Email address:</label><br></br>
                 <input type="email"
@@ -164,7 +169,7 @@ export default function Register() {
         //             <button type="submit">Submit</button>
         //         </form>
         //     </div>
-            
+
         // </div>
     );
 }
