@@ -15,9 +15,9 @@ const productSchema = new Schema({
         type: Number,
         required: 'Price is required'
     },
-    // sellerID: {
-    //     type: String,
-    // }
+    sellerID: {
+        type: String,
+    }
 }, {
     timestamps: true
 });
