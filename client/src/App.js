@@ -9,8 +9,11 @@ import Product from './pages/Product';
 
 import Register from './pages/Register';
 import Login from './pages/Login';
-import ViewSellers from './pages/ViewSellers-Admin';
 import Home from './pages/Home';
+
+import ViewSellers from './pages/ViewSellers-Admin';
+import ViewCate from './components/ViewCate-Admin';
+import AddCate from './components/AddCate-Admin';
 
 function App() {
   return (
@@ -26,6 +29,8 @@ function App() {
           <Route path='/register' Component={Register} />
           <Route path='/login' Component={Login} />
           <Route path='/admin/:userID' Component={ViewSellers} />
+          <Route path='/admin/:userID/category' Component={ViewCate} />
+          <Route path='/admin/:userID/category/add' Component={AddCate} />
         </Routes>
       </div>
     </Router>
