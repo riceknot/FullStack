@@ -17,10 +17,12 @@ export default function WelcomPage(){
                     quantity: newQuantity
                 }).then(() => {
                     console.log('Successfully update cart!');
+                    Axios.get('http://localhost:3000/cart')
+                    .then((response) => setCartList(response.data));
                 }).catch((error) => {
                     console.log(error.message)
                 })
-                return  window.location.reload(false);
+                return bool = false;
             }
         }
         if (bool){
@@ -31,8 +33,9 @@ export default function WelcomPage(){
                 })
                     .then(() => {
                         console.log('Successfully add to cart!');
+                        Axios.get('http://localhost:3000/cart')
+                        .then((response) => setCartList(response.data));
                     })
-                    .then(() => window.location.reload(false))
                     .catch((error) => {
                         console.log(error.message)
                     }
@@ -76,7 +79,8 @@ export default function WelcomPage(){
                                 await Axios.delete(`http://localhost:3000/cart/delete/${item._id}`)
                                     .then(() => {
                                         console.log('Item removed!');
-                                        window.location.reload(false);
+                                        Axios.get('http://localhost:3000/cart')
+                                            .then((response) => setCartList(response.data));
                                     })
                                     .catch((error) => console.log(error.message))
                             }}>Remove</button>
@@ -91,7 +95,11 @@ export default function WelcomPage(){
     );
 }
 
-// onClick={AddToCart(item._id, item.name, id.toString())}
+
+
+
+
+
 
 
 
