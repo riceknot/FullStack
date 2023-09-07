@@ -12,8 +12,8 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 
 import ViewSellers from './pages/ViewSellers-Admin';
-import ViewCate from './components/ViewCate-Admin';
-import AddCate from './components/AddCate-Admin';
+import ViewCate from './pages/ViewCate-Admin';
+import AddCate from './pages/AddCate-Admin';
 
 function App() {
   return (
