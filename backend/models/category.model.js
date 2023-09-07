@@ -12,8 +12,9 @@ const categorySchema = new Schema({
     },
     parentID: {
         type: String,
+    }
 });
 
 const Category = mongoose.model('Category', categorySchema);
 
-module.exports =Category;
+module.exports = Category;
