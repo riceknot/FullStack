@@ -17,6 +17,9 @@ export default function AddCate() {
         })
             .then(() => {
                 console.log('Successfully add a new category!');
+                setCateName('');
+                setCateType('main');
+                setCateParent('');
             })
             .catch((error) => {
                 console.log(error.message)
@@ -25,6 +28,7 @@ export default function AddCate() {
 
     return (
         <form onSubmit={handleSubmit}>
+            <button className='btn btn-primary btn-block mb-4'><Link to='/admin/:userID/category'>Go back to List</Link></button>
             <div className="form-outline mb-4">
                 <label>Category Name:</label><br></br>
                 <input type="text"
