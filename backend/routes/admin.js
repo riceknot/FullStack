@@ -102,11 +102,11 @@ router.route('/category/add')
 
 router.route('/category/delete-main')
     .post((req, res) => {
-        const SubID = req.body.id;
-        Category.find({ categoryType: 'sub', parentID: SubID })
+        const MainID = req.body.id;
+        Category.find({ categoryType: 'sub', parentID: MainID })
             .then((foundCate) => {
                 if (foundCate.length === 0) {
-                    Category.findByIdAndDelete(SubID)
+                    Category.findByIdAndDelete(MainID)
                         .then((deleted) => {
                             console.log('Main catergory deleted!');
                         })
