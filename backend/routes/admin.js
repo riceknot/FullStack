@@ -13,7 +13,7 @@ router.route('/')
     .put((req, res) => {  //Update approval of a seller. 
         User.findByIdAndUpdate(req.body.userID, { pending: req.body.pending }, { new: true })
             .then((updatedUser) => {
-                console.log(`User ${updatedUser.id} has been approved!`);
+                console.log(`User ${updatedUser.id} approval status changed!`);
                 User.find({ role: 'seller' })
                     .then((user) => res.json(user))
                     .catch((error) => console.log(error.message))
