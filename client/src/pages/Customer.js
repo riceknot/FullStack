@@ -97,11 +97,15 @@ export default function WelcomPage(){
 
     //Search function:
     useEffect(() => {
-        const filteredProducts = productList.filter((product) => {
-            product.name.toLowerCase().includes(searchInput.toLowerCase());
-        });
-        setProductFilter(filteredProducts);
-    }, [searchInput, productList])
+        if (searchInput === '') {
+            setProductFilter(productList);
+        } else {
+            const filteredProducts = productList.filter((product) =>
+                product.name.toLowerCase().includes(searchInput.toLowerCase())
+            );
+            setProductFilter(filteredProducts);
+        }
+    }, [searchInput, productList]);
     
     return (
         <div>
