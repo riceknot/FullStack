@@ -139,17 +139,20 @@ export default function WelcomPage(){
                     setCartList([]);
                 }}>Clear Cart</button><br/>
                 <p></p>
-                <button onClick={() => {
+                <button onClick={async () => {
                     if (cartList.length === 0) return;
                     for (let i = 0; i < cartList.length; i++){
-                        Axios.post(`http://localhost:3000/order/add/${id.toString()}/${cartList[i].sellerID.toString()}`, {
+                        await Axios.post(`http://localhost:3000/order/add/${id.toString()}/${cartList[i].sellerID.toString()}`, {
                             productName: cartList[i].name,
                             productQuantity: cartList[i].quantity
                         })
-                        Axios.delete(`http://localhost:3000/cart/delete/${cartList[i]._id}`)
+                        await Axios.delete(`http://localhost:3000/cart/delete/${cartList[i]._id}`)
                     }
-                    Axios.get(`http://localhost:3000/order/customer/${id.toString()}`).then((response) => setOrderList(response.data));
-                    setCartList([]);
+                    
+                    await Axios.get(`http://localhost:3000/order/customer/${id.toString()}`).then((response) => 
+                        setOrderList(response.data)
+                    )   
+                    setCartList([])
                 }}>Order Cart</button>
                 <p></p>
             </div>
@@ -202,7 +205,6 @@ export default function WelcomPage(){
     );
 }
 
-// onClick={AddToCart(item._id, item.name, id.toString())}
 
 
 
