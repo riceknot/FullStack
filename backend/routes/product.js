@@ -14,17 +14,24 @@ router.route('/:sellerID').get((req,res) => {
         .catch(err => res.status(400).json('Error: ' + err))
 });
 
-router.route('/seller/:userID/add').post((req,res) => {
-    const newProduct = new Product({
-        category: req.body.category,
-        name: req.body.name,
-        price: req.body.price,
-        sellerID: req.params.userID
-    });
-
-    newProduct.save()
-        .then(() => res.json('Product added'))
-        .catch(err => res.status(400).json('Error: ' + err));
+router.route('/seller/:userID/add').post((req, res) => {
+    Category.findOne({ categoryName: req.body.category, categoryType: 'ssub' })
+        .then((foundCate) => {
+            if (foundCate === 0) {
+                return res.send('Cannot find category.')
+            } else {
+                const newProduct = new Product({
+                    category: req.body.category,
+                    name: req.body.name,
+                    price: req.body.price,
+                    sellerID: req.params.userID
+                });
+                newProduct.save()
+                    .then(() => res.json('Product added'))
+                    .catch(err => res.status(400).json('Error: ' + err));
+            }
+        })
+        .catch((error) => console.log(error.message))
 });
 
 router.route("/:id").get((req,res) => {
