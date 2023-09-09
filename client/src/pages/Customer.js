@@ -8,7 +8,7 @@ export default function WelcomPage(){
     // const [productFilterByPriceFrom, setProductFilterByPriceFrom] = useState([]);
     // const [productFilterByPriceTo, setProductFilterByPriceTo] = useState([]);
     // const [productFilterByDate, setProductFilterByDate] = useState([]);
-    // const [searchInput, setSearchInput] = useState([]);
+    const [searchInput, setSearchInput] = useState([]);
     const [productFilter, setProductFilter] = useState([]);
     const [cartList, setCartList] = useState([]);
     const [orderList, setOrderList] = useState([]);
@@ -94,8 +94,19 @@ export default function WelcomPage(){
             .then((response) => setOrderList(response.data));
     }, []);
 
+
+    //Search function:
+    useEffect(() => {
+        const filteredProducts = productList.filter((product) => {
+            product.name.toLowerCase().includes(searchInput.toLowerCase());
+        });
+        setProductFilter(filteredProducts);
+    }, [searchInput, productList])
+    
     return (
         <div>
+            <label>Search:</label>
+            <input type="text" onChange={(e) => setSearchInput(e.target.value)} />
             <div className='container border border-primary'>
                 {productFilter.length === 0 ? (
                     <p>No data found</p>
