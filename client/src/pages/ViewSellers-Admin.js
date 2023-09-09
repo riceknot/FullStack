@@ -27,7 +27,7 @@ export default function ViewSellers() {
             pending: !pending
         })
             .then((res) => {
-                console.log('Successfully approved seller!');
+                console.log('Successfully change seller status!');
                 setSellerList(res.data);
             })
             .catch((error) => {
