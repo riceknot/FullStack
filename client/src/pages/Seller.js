@@ -93,6 +93,11 @@ export default function NewProduct() {
                     product.map((item, index) => (
                         <div key={index}>
                             <li>Name: <Link to={`/product/${item._id}`}>{item.name}</Link> || Price: {item.price}</li>
+                            <button onClick={async () => {
+                                await Axios.delete(`http://localhost:3000/product/${item._id}`)
+                                await Axios.get(`http://localhost:3000/product/seller/${id.toString()}`)
+                                        .then((response) => setProduct(response.data.product))
+                            }}>Delete Product</button>
                             <p></p>
                         </div>
                     ))
