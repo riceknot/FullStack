@@ -7,6 +7,7 @@ import { Link,
 export default function WelcomPage(){
     const [productFilter, setProductFilter] = useState([]);
     const [cartList, setCartList] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
     function GetCart(){
         let arr = [];
         for (let i = 0; i< localStorage.length; i++){
@@ -58,8 +59,22 @@ export default function WelcomPage(){
             });
     }, []);
 
+    useEffect(() => {
+        if (searchInput === '') {
+            setProductFilter(productFilter);
+        } else {
+            const filteredProducts = productFilter.filter((product) =>
+                product.name.toLowerCase().includes(searchInput.toLowerCase())
+            );
+            setProductFilter(filteredProducts);
+        }
+    }, [searchInput, productFilter]);
+
     return (
         <div>
+            <label>Search:</label>
+            <input type="text" onChange={(e) => setSearchInput(e.target.value)} />
+            <p></p>
             <div className='container border border-primary'>
                 {productFilter.length === 0 ? (
                     <p>No data found</p>
