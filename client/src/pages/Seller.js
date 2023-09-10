@@ -8,10 +8,11 @@ export default function NewProduct() {
     const [productCategory, setProductCategory] = useState("");
     const [product, setProduct] = useState([]);
     const [order, setOrder] = useState([]);
+    const [category, setCategory] = useState([]);
     const params = useParams();
     const id = params.userID;
 
-    function handleSubmit(e){
+    function handleSubmit(e) {
         e.preventDefault()
 
         Axios.post(`http://localhost:3000/product/seller/${id.toString()}/add`, {
@@ -31,9 +32,10 @@ export default function NewProduct() {
     useEffect(() => {
         Axios.get(`http://localhost:3000/product/${id.toString()}`)
             .then((response) => {
-                setProduct(response.data)
+                setProduct(response.data.product);
+                setCategory(response.data.category);
             }
-        );
+            );
     }, []);
 
     useEffect(() => {
@@ -41,95 +43,102 @@ export default function NewProduct() {
             .then((response) => {
                 setOrder(response.data)
             }
-        );
+            );
     }, []);
-    
-  return (
-    <div>
-        <form onSubmit={handleSubmit}>
-            <div className="form-outline mb-4">
-                <label>Category:</label><br></br>
-                <input type="text" 
-                    className="productCatergory"
-                    onChange={(e) => { setProductCategory(e.target.value);
-                        
-                    }}
-                />       
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <div className="form-outline mb-4">
+                    <label>Category:</label><br></br>
+                    <select
+                        className="productCatergory"
+                        onChange={(e) => {
+                            setProductCategory(e.target.value);
+
+                        }}
+                    >
+                        {category.map((cate) => (
+                            <option key={cate._id}>{cate.categoryName}</option>
+                        ))}
+                    </select>
+
+                </div>
+                <div className="form-outline mb-4">
+                    <label>Name:</label><br></br>
+                    <input type="text"
+                        className="productName"
+                        onChange={(e) => { setProductName(e.target.value) }}
+                    />
+                </div>
+                <div className="form-outline mb-4">
+                    <label>Price:</label><br></br>
+                    <input type="number"
+                        className="productPrice"
+                        onChange={(e) => { setProductPrice(e.target.value) }}
+                    />
+                </div>
+                <button type='submit' className='btn btn-primary btn-block mb-4'>Create Product</button>
+            </form>
+            <br></br>
+            <div className='container border border-primary'>
+                {product.length === 0 ? (
+                    <p>No data found</p>
+                ) : (
+                    product.map((item, index) => (
+                        <div key={index}>
+                            <li>Name: <Link to={`/product/${item._id}`}>{item.name}</Link> || Price: {item.price}</li>
+                            <p></p>
+                        </div>
+                    ))
+                )}
             </div>
-            <div className="form-outline mb-4">
-                <label>Name:</label><br></br>
-                <input type="text" 
-                    className="productName"
-                    onChange={(e) => { setProductName(e.target.value) }}
-                />       
+            <p></p>
+            <div className='container border border-primary'>
+                <p>Your Order:</p>
+                {order.length === 0 ? (
+                    <p>Nothing in order</p>
+                ) : (
+                    order.map((item, index) => (
+                        <div key={index}>
+                            <li>Name: {item.productName} || Quantity: {item.productQuantity} || Status: {item.status}</li>
+
+                            {item.status === "NEW" ? (
+                                <div>
+                                    <button onClick={() => {
+                                        Axios.put(`http://localhost:3000/order`, {
+                                            _id: item._id,
+                                            status: "Shipped"
+                                        }).then(() => {
+                                            console.log('Successfully update order to ship!');
+                                            Axios.get(`http://localhost:3000/order/seller/${id.toString()}`)
+                                                .then((response) => setOrder(response.data));
+                                        }).catch((error) => {
+                                            console.log(error.message)
+                                        })
+                                    }}>Ship</button>
+                                    <button onClick={() => {
+                                        Axios.put(`http://localhost:3000/order`, {
+                                            _id: item._id,
+                                            status: "Cancelled"
+                                        }).then(() => {
+                                            console.log('Successfully update order to cancel!');
+                                            Axios.get(`http://localhost:3000/order/seller/${id.toString()}`)
+                                                .then((response) => setOrder(response.data));
+                                        }).catch((error) => {
+                                            console.log(error.message)
+                                        })
+                                    }}>Cancel</button>
+                                </div>
+                            ) : (
+                                <></>
+                            )}
+
+                        </div>
+                    ))
+                )}
             </div>
-            <div className="form-outline mb-4">
-                <label>Price:</label><br></br>
-                <input type="number" 
-                    className="productPrice"
-                    onChange={(e) => { setProductPrice(e.target.value) }}
-                />       
-            </div>
-            <button type='submit' className='btn btn-primary btn-block mb-4'>Create Product</button>
-        </form>
-        <br></br>
-        <div className='container border border-primary'>
-            {product.length === 0 ? (
-                <p>No data found</p>
-            ) : (
-                product.map((item, index) => (
-                    <div key={index}>
-                        <li>Name: <Link to={`/product/${item._id}`}>{item.name}</Link> || Price: {item.price}</li>
-                        <p></p>
-                    </div>
-                ))
-            )}
         </div>
-        <p></p>
-        <div className='container border border-primary'>
-            <p>Your Order:</p>
-            {order.length === 0 ? (
-            <p>Nothing in order</p>
-            ) : (
-                order.map((item, index) => (
-                    <div key={index}>
-                        <li>Name: {item.productName} || Quantity: {item.productQuantity} || Status: {item.status}</li>
-                        
-                        {item.status === "NEW" ? (
-                            <div>
-                                <button onClick={() => {
-                                    Axios.put(`http://localhost:3000/order`, {
-                                        _id: item._id,
-                                        status: "Shipped"
-                                    }).then(() => {
-                                        console.log('Successfully update order to ship!');
-                                        Axios.get(`http://localhost:3000/order/seller/${id.toString()}`)
-                                        .then((response) => setOrder(response.data));
-                                    }).catch((error) => {
-                                        console.log(error.message)
-                                    })
-                                }}>Ship</button>
-                                <button onClick={() => {
-                                    Axios.put(`http://localhost:3000/order`, {
-                                        _id: item._id,
-                                        status: "Cancelled"
-                                    }).then(() => {
-                                        console.log('Successfully update order to cancel!');
-                                        Axios.get(`http://localhost:3000/order/seller/${id.toString()}`)
-                                        .then((response) => setOrder(response.data));
-                                    }).catch((error) => {
-                                        console.log(error.message)
-                                    })
-                                }}>Cancel</button>
-                            </div>
-                        ):(
-                            <></>
-                        )}
-                        
-                    </div>
-                ))
-            )}
-        </div>
-    </div>
-  )
+    )
 }
+
