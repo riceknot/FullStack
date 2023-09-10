@@ -3,11 +3,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const categorySchema = new Schema({
-    category: {
+    categoryName: {
         type: String,
+        unique: true
+    },
+    categoryType: {
+        type: String
     },
     parentID: {
-        type: String,
+        type: String
     }
 });
 
