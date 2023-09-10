@@ -79,9 +79,8 @@ export default function ViewCate() {
         <div className="container">
             <a href={'/admin/' + useParams().userID} className='btn btn-primary'>View All Seller</a>
             <p></p>
-            <Link to="category/add" className='btn btn-primary'>Add Category</Link>
+            <Link to="add" className='btn btn-primary'>Add Category</Link>
             <h1>Cate List:</h1>
-            <button className='btn btn-primary btn-block mb-4'><Link to='add'>Add new category</Link></button>
             <div className="list">
 
                 {mainCateList.map((mainCate) => (
