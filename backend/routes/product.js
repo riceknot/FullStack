@@ -15,11 +15,9 @@ router.route('/:sellerID').get((req,res) => {
 });
 
 router.route('/seller/:userID/add').post((req, res) => {
-    Category.findOne({ categoryName: req.body.category, categoryType: 'ssub' })
+    Category.findOne({ categoryType: 'ssub', categoryName: req.body.category })
         .then((foundCate) => {
-            if (foundCate === 0) {
-                return res.send('Cannot find category.')
-            } else {
+            if (foundCate === true) {
                 const newProduct = new Product({
                     category: req.body.category,
                     name: req.body.name,
@@ -29,6 +27,9 @@ router.route('/seller/:userID/add').post((req, res) => {
                 newProduct.save()
                     .then(() => res.json('Product added'))
                     .catch(err => res.status(400).json('Error: ' + err));
+            } else {
+                console.log('Cannot find category');
+                return res.send('Cannot find category.');
             }
         })
         .catch((error) => console.log(error.message))
