@@ -8,7 +8,7 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err))
 });
 
-router.route('/:sellerID').get((req, res) => {
+router.route('/seller/:sellerID').get((req, res) => {
     Product.find({ sellerID: req.params.sellerID })
         .then((product) => {
             Category.find({ categoryType: 'ssub' })
