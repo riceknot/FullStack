@@ -8,7 +8,7 @@ export default function WelcomPage(){
     // const [productFilterByPriceFrom, setProductFilterByPriceFrom] = useState([]);
     // const [productFilterByPriceTo, setProductFilterByPriceTo] = useState([]);
     // const [productFilterByDate, setProductFilterByDate] = useState([]);
-    const [searchInput, setSearchInput] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
     const [productFilter, setProductFilter] = useState([]);
     const [cartList, setCartList] = useState([]);
     const [orderList, setOrderList] = useState([]);
@@ -111,6 +111,7 @@ export default function WelcomPage(){
         <div>
             <label>Search:</label>
             <input type="text" onChange={(e) => setSearchInput(e.target.value)} />
+            <p></p>
             <div className='container border border-primary'>
                 {productFilter.length === 0 ? (
                     <p>No data found</p>
