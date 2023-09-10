@@ -7,8 +7,10 @@ export default function NewProduct() {
     const [productPrice, setProductPrice] = useState("");
     const [productCategory, setProductCategory] = useState("");
     const [product, setProduct] = useState([]);
+    const [productFilter, setProductFilter] = useState([]);
     const [order, setOrder] = useState([]);
     const [category, setCategory] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
     const params = useParams();
     const id = params.userID;
 
@@ -51,6 +53,17 @@ export default function NewProduct() {
             );
     }, []);
 
+    useEffect(() => {
+        if (searchInput === '') {
+            setProductFilter(product);
+        } else {
+            const filteredProducts = product.filter((product) =>
+                product.name.toLowerCase().includes(searchInput.toLowerCase())
+            );
+            setProductFilter(filteredProducts);
+        }
+    }, [searchInput, product]);
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -86,11 +99,14 @@ export default function NewProduct() {
                 <button type='submit' className='btn btn-primary btn-block mb-4'>Create Product</button>
             </form>
             <br></br>
+            <label>Search:</label>
+            <input type="text" onChange={(e) => setSearchInput(e.target.value)} />
+            <p></p>
             <div className='container border border-primary'>
-                {product.length === 0 ? (
+                {productFilter.length === 0 ? (
                     <p>No data found</p>
                 ) : (
-                    product.map((item, index) => (
+                    productFilter.map((item, index) => (
                         <div key={index}>
                             <li>Name: <Link to={`/product/${item._id}`}>{item.name}</Link> || Price: {item.price}</li>
                             <button onClick={async () => {
