@@ -33,7 +33,7 @@ router.route('/category')
 router.route('/category/add')
     .post((req, res) => {  //Send category information to Admin page
         const cateType = req.body.categoryType;
-        if (cateType === 'main') {
+        if (cateType === 'main') {    //If adding category is Main
             const newCate = new Category({
                 categoryName: req.body.categoryName,
                 categoryType: req.body.categoryType,
@@ -47,12 +47,11 @@ router.route('/category/add')
                 .catch((error) => {
                     console.log(error.message)
                 });
-        } else if (cateType === 'sub') {
-            Category.findOne({ id: req.body.parentID, categoryType: 'main' })
+
+        } else if (cateType === 'sub') {   // If adding category is Sub
+            Category.findOne({ id: req.body.parentID, categoryType: 'main' })  // Find an existing Main with matching ID
                 .then((subCate) => {
-                    if (subCate.length === 0) {
-                        return console.log('Cannot find Main category ID.')
-                    } else {
+                    if (subCate) {
                         const newCate = new Category({
                             categoryName: req.body.categoryName,
                             categoryType: req.body.categoryType,
@@ -66,35 +65,37 @@ router.route('/category/add')
                             .catch((error) => {
                                 console.log(error.message)
                             })
+                    } else {
+                        return console.log('Cannot find Main category ID.')
                     };
                 })
                 .catch((error) => {
                     console.log(error.message)
                 });
-        } else {
-            Category.findOne({ id: req.body.parentID, categoryType: 'sub' })
+
+        } else {  //If adding category is Sub-sub (ssub)
+            Category.findOne({ id: req.body.parentID, categoryType: 'sub' })  //Find existing Sub with matching ID
                 .then((ssubCate) => {
-                    if (ssubCate.length === 0) {
+                    if (ssubCate) {
+                        const newCate = new Category({
+                            categoryName: req.body.categoryName,
+                            categoryType: req.body.categoryType,
+                            parentID: req.body.parentID
+                        });
+                        newCate.save()
+                            .then(() => {
+                                console.log('New Sub-Sub category added!');
+                                return res.send('New Sub-Sub category added!');
+                            })
+                            .catch((error) => {
+                                console.log(error.message);
+                            })
+                    } else {
                         return console.log('Cannot find Sub category ID.')
                     }
-                    const newCate = new Category({
-                        categoryName: req.body.categoryName,
-                        categoryType: req.body.categoryType,
-                        parentID: req.body.parentID
-                    });
-                    newCate.save()
-                        .then(() => {
-                            console.log('New Sub-Sub category added!');
-                            return res.send('New Sub-Sub category added!');
-                        })
-                        .catch((error) => {
-                            console.log(error.message)
-                            return res.send('Error with adding sub-sub category.')
-                        });
                 })
                 .catch((error) => {
                     console.log(error.message)
-                    return res.send('Error with adding sub-sub category.')
                 });
         }
     })
