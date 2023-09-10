@@ -14,23 +14,28 @@ export default function NewProduct() {
 
     function handleSubmit(e) {
         e.preventDefault()
-
+        console.log(productCategory)
         Axios.post(`http://localhost:3000/product/seller/${id.toString()}/add`, {
-            category: productCategory,
+            category: productCategory.toString(),
             name: productName,
             price: productPrice,
         })
             .then(() => {
                 console.log('Successfully add a new product!');
-                window.location.reload(false);
             })
+            .then(() => {
+                Axios.get(`http://localhost:3000/product/seller/${id.toString()}`)
+                    .then((response) => {
+                        setProduct(response.data.product);
+                    }
+            )})
             .catch((error) => {
                 console.log(error.message)
             })
     }
 
     useEffect(() => {
-        Axios.get(`http://localhost:3000/product/${id.toString()}`)
+        Axios.get(`http://localhost:3000/product/seller/${id.toString()}`)
             .then((response) => {
                 setProduct(response.data.product);
                 setCategory(response.data.category);
@@ -55,11 +60,11 @@ export default function NewProduct() {
                         className="productCatergory"
                         onChange={(e) => {
                             setProductCategory(e.target.value);
-
                         }}
                     >
+                        <option value="" selected disabled hidden>Choose here</option>
                         {category.map((cate) => (
-                            <option key={cate._id}>{cate.categoryName}</option>
+                            <option key={cate._id} value={cate.categoryName}>{cate.categoryName}</option>
                         ))}
                     </select>
 
