@@ -30,7 +30,7 @@ export default function AddCate() {
         <form onSubmit={handleSubmit}>
             <a href={'/admin/' + useParams().userID} className='btn btn-primary'>View All Seller</a>
             <p></p>
-            <a href={'/admin/' + useParams().userID + '/category'} className='btn btn-primary'>Add Category</a>
+            <a href={'/admin/' + useParams().userID + '/category'} className='btn btn-primary'>View Category</a>
             <div className="form-outline mb-4">
                 <label>Category Name:</label><br></br>
                 <input type="text"
