@@ -49,7 +49,7 @@ router.route('/category/add')
                 });
 
         } else if (cateType === 'sub') {   // If adding category is Sub
-            Category.findOne({ id: req.body.parentID, categoryType: 'main' })  // Find an existing Main with matching ID
+            Category.findOne({ _id: req.body.parentID, categoryType: 'main' })  // Find an existing Main with matching ID
                 .then((subCate) => {
                     if (subCate) {
                         const newCate = new Category({
@@ -74,7 +74,7 @@ router.route('/category/add')
                 });
 
         } else {  //If adding category is Sub-sub (ssub)
-            Category.findOne({ id: req.body.parentID, categoryType: 'sub' })  //Find existing Sub with matching ID
+            Category.findOne({ _id: req.body.parentID, categoryType: 'sub' })  //Find existing Sub with matching ID
                 .then((ssubCate) => {
                     if (ssubCate) {
                         const newCate = new Category({
