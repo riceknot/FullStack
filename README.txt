@@ -15,4 +15,27 @@ Instruction to run app:
   c) Vuong Gia An: customer cart CRUD when login and not login (5/5)
   d) Vo Quoc Huy: seller CRUD + order (5/5)
 
-7. Presentation Link:
+7. Sample Account:
+  a) Customer: 
+    email: customer1@gmail.com
+    phone: 123456789
+    password: Password123!
+
+  b) Seller 1:
+    email: seller1@gmail.com
+    phone: 345678901
+    password: Password123!
+    approve: false
+
+  c) Seller 2:
+    email: seller2@gmail.com
+    phone: 456789012 
+    password: Password123!
+    approve: false
+
+  d) Admin:
+    email: admin@gmail.com
+    phone: 123 
+    password: 123
+
+8. Presentation Link:
