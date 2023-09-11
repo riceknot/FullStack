@@ -5,6 +5,7 @@ export default function Login() {
     const [loginInput, setLoginInput] = useState("");
     const [password, setPassword] = useState("");
 
+    //Send login input and password back to backend
     function handleSubmit(e) {
         e.preventDefault()
 
@@ -24,44 +25,30 @@ export default function Login() {
     return (
         <div className="container">
             <form onSubmit={handleSubmit}>
-            {/* Email input */}
+                {/* Email input */}
                 <div className="form-outline mb-4">
                     <label>Email address or Phone number:</label><br></br>
-                    <input type="text" 
+                    <input type="text"
                         className="loginInput"
                         onChange={(e) => { setLoginInput(e.target.value) }}
                     />
-                    
+
                 </div>
 
-            {/* Password input */}
+                {/* Password input */}
                 <div className="form-outline mb-4">
                     <label>Password:</label><br></br>
                     <input type="password"
-                        className="password" 
-                        onChange={(e) => { setPassword(e.target.value) }}/>
+                        className="password"
+                        onChange={(e) => { setPassword(e.target.value) }} />
                 </div>
 
-            {/* 2 column grid layout for inline styling */}
-                {/* <div class="row mb-4">
-                    <div class="col d-flex justify-content-center">
-                    <!-- Checkbox -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-                        <label class="form-check-label" for="form2Example31"> Remember me </label>
-                    </div>
-                    </div>
-
-                    <div class="col">
-                    Forgot password Link
-                    <a href="#!">Forgot password?</a>
-                    </div>
-                </div> */}
+                {/* 2 column grid layout for inline styling */}
 
                 <div>
                     <p>Not a member? <a href="/register">Register</a></p>
                 </div>
-            {/* Submit Button */}
+                {/* Submit Button */}
                 <button type="submit" className="btn btn-primary btn-block mb-4">Sign in</button>
             </form>
         </div>

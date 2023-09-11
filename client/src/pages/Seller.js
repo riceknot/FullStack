@@ -14,6 +14,7 @@ export default function NewProduct() {
     const params = useParams();
     const id = params.userID;
 
+    //Add product
     function handleSubmit(e) {
         e.preventDefault()
         console.log(productCategory)
@@ -36,6 +37,7 @@ export default function NewProduct() {
             })
     }
 
+    //Get product and category data.
     useEffect(() => {
         Axios.get(`http://localhost:3000/product/seller/${id.toString()}`)
             .then((response) => {
@@ -45,6 +47,7 @@ export default function NewProduct() {
             );
     }, []);
 
+    //Get all orders by seller's ID
     useEffect(() => {
         Axios.get(`http://localhost:3000/order/seller/${id.toString()}`)
             .then((response) => {
@@ -53,6 +56,7 @@ export default function NewProduct() {
             );
     }, []);
 
+    //Search bar
     useEffect(() => {
         if (searchInput === '') {
             setProductFilter(product);

@@ -31,7 +31,7 @@ router.route('/category')
     })
 
 router.route('/category/add')
-    .post((req, res) => {  //Send category information to Admin page
+    .post((req, res) => {  //Get category information from Admin page
         const cateType = req.body.categoryType;
         if (cateType === 'main') {    //If adding category is Main
             const newCate = new Category({
@@ -100,14 +100,14 @@ router.route('/category/add')
         }
     })
 
-
+//Delete a main category
 router.route('/category/delete-main')
     .post((req, res) => {
         const MainID = req.body.id;
-        Category.find({ categoryType: 'sub', parentID: MainID })
+        Category.find({ categoryType: 'sub', parentID: MainID }) //Find associating sub categories
             .then((foundCate) => {
-                if (foundCate.length === 0) {
-                    Category.findByIdAndDelete(MainID)
+                if (foundCate.length === 0) { //If none is found.
+                    Category.findByIdAndDelete(MainID) //Proceed with deleting
                         .then((deleted) => {
                             console.log('Main catergory deleted!');
                         })
@@ -119,10 +119,11 @@ router.route('/category/delete-main')
             .catch((error) => console.log(error.message))
     });
 
+//Delete a sub category
 router.route('/category/delete-sub')
     .post((req, res) => {
         const SubID = req.body.id;
-        Category.find({ categoryType: 'ssub', parentID: SubID })
+        Category.find({ categoryType: 'ssub', parentID: SubID }) //Find associating sub-sub categories
             .then((foundCate) => {
                 if (foundCate.length === 0) {
                     Category.findByIdAndDelete(SubID)

@@ -2,46 +2,19 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 
-export default function WelcomPage(){
+export default function WelcomPage() {
     const [productList, setProductList] = useState([]);
-    // const [productFilterByName, setProductFilterByName] = useState([]);
-    // const [productFilterByPriceFrom, setProductFilterByPriceFrom] = useState([]);
-    // const [productFilterByPriceTo, setProductFilterByPriceTo] = useState([]);
-    // const [productFilterByDate, setProductFilterByDate] = useState([]);
     const [searchInput, setSearchInput] = useState("");
     const [productFilter, setProductFilter] = useState([]);
     const [cartList, setCartList] = useState([]);
     const [orderList, setOrderList] = useState([]);
-    // const [button, setButton] = useState(false);
-
-    // const [inputText, setInputText] = useState('');
-    // const [input1, setInput1] = useState('');
-    // const [input2, setInput2] = useState('');
-
-
-    // const handleInputChange1 = (e) => {
-    //     const value = e.target.value;
-
-    //     // Allow only positive numbers
-    //     if (/^[0-9]*$/.test(value)) {
-    //         setInput1(value);
-    //     }
-    // };
-
-    // const handleInputChange2 = (e) => {
-    //     const value = e.target.value;
-
-    //     // Allow only positive numbers
-    //     if (/^[0-9]*$/.test(value)) {
-    //         setInput2(value);
-    //     } 
-    // };
-
     const params = useParams();
     const id = params.userID;
+
+    //Function to add products to cart.
     function AddToCart(itemId, itemName, itemSellerID) {
         let bool = true;
-        for (let i = 0 ; i < cartList.length; i++){
+        for (let i = 0; i < cartList.length; i++) {
             if (cartList[i].id === itemId) {
                 let newQuantity = cartList[i].quantity + 1
                 Axios.put(`http://localhost:3000/cart`, {
@@ -50,32 +23,33 @@ export default function WelcomPage(){
                 }).then(() => {
                     console.log('Successfully update cart!');
                     Axios.get('http://localhost:3000/cart')
-                    .then((response) => setCartList(response.data));
+                        .then((response) => setCartList(response.data));
                 }).catch((error) => {
                     console.log(error.message)
                 })
                 return bool = false;
             }
         }
-        if (bool){
+        if (bool) {
             Axios.post(`http://localhost:3000/cart/add/${id.toString()}`, {
-                    id: itemId,
-                    name: itemName,
-                    quantity: 1,
-                    sellerID: itemSellerID
-                })
-                    .then(() => {
-                        console.log('Successfully add to cart!');
-                        Axios.get('http://localhost:3000/cart')
+                id: itemId,
+                name: itemName,
+                quantity: 1,
+                sellerID: itemSellerID
+            })
+                .then(() => {
+                    console.log('Successfully add to cart!');
+                    Axios.get('http://localhost:3000/cart')
                         .then((response) => setCartList(response.data));
-                    })
-                    .catch((error) => {
-                        console.log(error.message)
-                    }
-            )
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                }
+                )
         }
-    }       
+    }
 
+    //When the page loads up, receive data of all products from backend.
     useEffect(() => {
         Axios.get('http://localhost:3000/product')
             .then((response) => {
@@ -84,11 +58,13 @@ export default function WelcomPage(){
             });
     }, []);
 
+    //Get all products currently in the cart.
     useEffect(() => {
         Axios.get('http://localhost:3000/cart')
             .then((response) => setCartList(response.data));
     }, []);
 
+    //Get all ordered products.
     useEffect(() => {
         Axios.get(`http://localhost:3000/order/customer/${id.toString()}`)
             .then((response) => setOrderList(response.data));
@@ -106,7 +82,7 @@ export default function WelcomPage(){
             setProductFilter(filteredProducts);
         }
     }, [searchInput, productList]);
-    
+
     return (
         <div>
             <label>Search:</label>
@@ -129,7 +105,7 @@ export default function WelcomPage(){
             <div className='container border border-primary'>
                 <p>Your Cart:</p>
                 {cartList.length === 0 ? (
-                <p>Nothing in cart</p>
+                    <p>Nothing in cart</p>
                 ) : (
                     cartList.map((item, index) => (
                         <div key={index}>
@@ -149,25 +125,25 @@ export default function WelcomPage(){
                 )}
                 <button onClick={() => {
                     if (cartList.length === 0) return;
-                    for (let i = 0; i < cartList.length; i++){
+                    for (let i = 0; i < cartList.length; i++) {
                         Axios.delete(`http://localhost:3000/cart/delete/${cartList[i]._id}`)
                     }
                     setCartList([]);
-                }}>Clear Cart</button><br/>
+                }}>Clear Cart</button><br />
                 <p></p>
                 <button onClick={async () => {
                     if (cartList.length === 0) return;
-                    for (let i = 0; i < cartList.length; i++){
+                    for (let i = 0; i < cartList.length; i++) {
                         await Axios.post(`http://localhost:3000/order/add/${id.toString()}/${cartList[i].sellerID.toString()}`, {
                             productName: cartList[i].name,
                             productQuantity: cartList[i].quantity
                         })
                         await Axios.delete(`http://localhost:3000/cart/delete/${cartList[i]._id}`)
                     }
-                    
-                    await Axios.get(`http://localhost:3000/order/customer/${id.toString()}`).then((response) => 
+
+                    await Axios.get(`http://localhost:3000/order/customer/${id.toString()}`).then((response) =>
                         setOrderList(response.data)
-                    )   
+                    )
                     setCartList([])
                 }}>Order Cart</button>
                 <p></p>
@@ -176,43 +152,43 @@ export default function WelcomPage(){
             <div className='container border border-primary'>
                 <p>Your Order:</p>
                 {orderList.length === 0 ? (
-                <p>Nothing in order</p>
+                    <p>Nothing in order</p>
                 ) : (
                     orderList.map((item, index) => (
                         <div key={index}>
                             <li>Name: {item.productName} || Quantity: {item.productQuantity} || Status: {item.status}</li>
-                            
+
                             {item.status === "Shipped" ? (
                                 <div>
                                     <button onClick={() => {
                                         Axios.put(`http://localhost:3000/order`, {
-                                            _id:item._id,
+                                            _id: item._id,
                                             status: "Accepted"
                                         }).then(() => {
                                             console.log('Successfully update order!');
                                             Axios.get(`http://localhost:3000/order/customer/${id.toString()}`)
-                                            .then((response) => setOrderList(response.data));
+                                                .then((response) => setOrderList(response.data));
                                         }).catch((error) => {
                                             console.log(error.message)
                                         })
                                     }}>Accepted</button>
                                     <button onClick={() => {
                                         Axios.put(`http://localhost:3000/order`, {
-                                            _id:item._id,
+                                            _id: item._id,
                                             status: "Rejected"
                                         }).then(() => {
                                             console.log('Successfully update order!');
                                             Axios.get(`http://localhost:3000/order/customer/${id.toString()}`)
-                                            .then((response) => setOrderList(response.data));
+                                                .then((response) => setOrderList(response.data));
                                         }).catch((error) => {
                                             console.log(error.message)
                                         })
                                     }}>Rejected</button>
                                 </div>
-                            ):(
+                            ) : (
                                 <></>
                             )}
-                            
+
                         </div>
                     ))
                 )}

@@ -10,6 +10,7 @@ export default function Register() {
     const [businessName, setBusinessName] = useState("");
     const [approval, setApproval] = useState("");
 
+    //Submit all information for registration
     function handleSubmit(e) {
         e.preventDefault()
         Axios.post('http://localhost:3000/register', {
@@ -23,7 +24,7 @@ export default function Register() {
         })
             .then(() => {
                 console.log('Account successfully registered!');
-                window.location = '/login';
+                window.location = '/login';  //After registration, move the user to the Login page.
             })
             .catch((error) => {
                 console.log(error.message);
@@ -33,23 +34,27 @@ export default function Register() {
     return (
         <form onSubmit={handleSubmit}>
             <label>Role:</label><br></br>
-                <select className="role" onChange={(e) => { 
-                    setRole(e.target.value)
-                    {e.target.value === 'seller' ? (
+            <select className="role" onChange={(e) => {
+                setRole(e.target.value)
+                {
+                    e.target.value === 'seller' ? (
                         setApproval(false)
-                    ):(
-                        setApproval(true)
-                    )}
-                    {e.target.value === 'customer' ? (
+                    ) : (
+                    setApproval(true)
+                )
+                }
+                {
+                    e.target.value === 'customer' ? (
                         setBusinessName('')
-                    ):(
-                        setAddress('')
-                    )}
-                }}>
-                    <option value="">Choose a role</option>
-                    <option value="seller">Seller</option>
-                    <option value="customer">Customer</option>
-                </select>
+                    ) : (
+                    setAddress('')
+                )
+                }
+            }}>
+                <option value="">Choose a role</option>
+                <option value="seller">Seller</option>
+                <option value="customer">Customer</option>
+            </select>
             <div className="form-outline mb-4">
                 <label>Email address:</label><br></br>
                 <input type="email"
@@ -102,69 +107,5 @@ export default function Register() {
             )}
             <button type="submit" className="btn btn-primary btn-block mb-4">Submit</button>
         </form>
-        // <div className="container">
-        //     <div className="Register-form">
-        //         <form onSubmit={handleSubmit}>
-        //             <label>Role</label>
-        //             <select className="role" onChange={(e) => { setRole(e.target.value) }}>
-        //                 <option value="">Choose a role</option>
-        //                 <option value="seller">Seller</option>
-        //                 <option value="customer">Customer</option>
-        //             </select>
-
-        //             <label>Email</label>
-        //             <input
-        //                 className="email"
-        //                 type="text"
-        //                 onChange={(e) => { setEmail(e.target.value) }}
-        //             />
-
-        //             <label>Phone</label>
-        //             <input
-        //                 className="phone"
-        //                 type="number"
-        //                 onChange={(e) => { setPhone(e.target.value) }}
-        //             />
-
-        //             <label>Password</label>
-        //             <input
-        //                 className="password"
-        //                 type="text"
-        //                 onChange={(e) => { setPassword(e.target.value) }}
-        //             />
-
-        //             {
-        //                 // If the user choose 'customer', shows Address input and hide Business Name.
-        //             }
-        //             {role === 'customer' && (
-        //                 <div>
-        //                     <label>Address</label>
-        //                     <input
-        //                         className="address"
-        //                         type="text"
-        //                         onChange={(e) => { setAddress(e.target.value) }}
-        //                     />
-        //                 </div>
-        //             )}
-
-        //             {
-        //                 // If the user choose 'customer', shows Business Name input and hide Address.
-        //             }
-        //             {role === 'seller' && (
-        //                 <div>
-        //                     <label>Business Name</label>
-        //                     <input
-        //                         className="businessName"
-        //                         type="text"
-        //                         onChange={(e) => { setBusinessName(e.target.value) }}
-        //                     />
-        //                 </div>
-        //             )}
-
-        //             <button type="submit">Submit</button>
-        //         </form>
-        //     </div>
-            
-        // </div>
     );
 }

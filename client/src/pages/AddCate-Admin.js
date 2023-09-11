@@ -7,6 +7,7 @@ export default function AddCate() {
     const [cateType, setCateType] = useState('main');
     const [cateParent, setCateParent] = useState('');
 
+    //Add new category
     function handleSubmit(e) {
         e.preventDefault()
 
@@ -17,9 +18,7 @@ export default function AddCate() {
         })
             .then(() => {
                 console.log('Successfully add a new category!');
-                setCateName('');
-                setCateType('main');
-                setCateParent('');
+                window.location.reload(false);
             })
             .catch((error) => {
                 console.log(error.message)

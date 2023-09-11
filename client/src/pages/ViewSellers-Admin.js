@@ -5,9 +5,7 @@ import { Link } from 'react-router-dom';
 export default function ViewSellers() {
     const [sellerList, setSellerList] = useState([]);
 
-    {
-        //using useEffect to fetch all sellers data at the start of every render.
-    }
+    //using useEffect to fetch all sellers data at the start of every render.
     useEffect(() => {
         Axios.get('http://localhost:3000/admin/:userID')
             .then((res) => {
@@ -18,9 +16,8 @@ export default function ViewSellers() {
             });
     }, []);
 
-    {
-        //function to let the Admin approve a seller to login into their account then update the client-side list.
-    }
+
+    //function to let the Admin approve a seller to login into their account then update the client-side list.
     function toggleApproval(userID, pending) {
         Axios.put('http://localhost:3000/admin/:userID', {
             userID: userID,

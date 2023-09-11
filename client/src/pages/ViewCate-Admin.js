@@ -6,13 +6,8 @@ export default function ViewCate() {
     const [mainCateList, setMainCateList] = useState([]);
     const [subCateList, setSubCateList] = useState([]);
     const [ssubCateList, setSsubCateList] = useState([]);
-    {
-        //reset and setReset is used to reset the page only.
-    }
 
-    {
-        //using useEffect to fetch all CAtegory data at the start of every render.
-    }
+    //using useEffect to fetch all CAtegory data at the start of every render.
     useEffect(() => {
         Axios.get('http://localhost:3000/admin/:userID/category')
             .then((res) => {
@@ -29,9 +24,8 @@ export default function ViewCate() {
             });
     }, []);
 
-    {
-        //function to delete a MAIN category
-    }
+
+    //function to delete a MAIN category
     function deleteCategoryM(inputID) {
         Axios.post('http://localhost:3000/admin/:userID/category/delete-main', {
             id: inputID
@@ -44,9 +38,8 @@ export default function ViewCate() {
             })
     }
 
-    {
-        //function to delete a SUB category
-    }
+
+    //function to delete a SUB category
     function deleteCategoryS(inputID) {
         Axios.post('http://localhost:3000/admin/:userID/category/delete-sub', {
             id: inputID
@@ -59,9 +52,8 @@ export default function ViewCate() {
             })
     }
 
-    {
-        //function to delete a  Sub-Sub category
-    }
+
+    //function to delete a  Sub-Sub category
     function deleteCategorySS(inputName) {
         Axios.post('http://localhost:3000/admin/:userID/category/delete-ssub', {
             categoryName: inputName
@@ -83,6 +75,9 @@ export default function ViewCate() {
             <h1>Cate List:</h1>
             <div className="list">
 
+                {
+                    //Main category list:
+                }
                 {mainCateList.map((mainCate) => (
                     <div className="user-card" key={mainCate._id}>
                         <h2>Main cate:</h2>
@@ -90,6 +85,9 @@ export default function ViewCate() {
                         <p>Category Name: {mainCate.categoryName}</p>
                         <button className='btn btn-primary btn-block mb-4' onClick={() => deleteCategoryM(mainCate._id)}>Delete main category</button>
 
+                        {
+                            //Sub category list:
+                        }
                         {subCateList
                             .filter(filCate => filCate.parentID === mainCate._id && filCate.categoryType === 'sub')
                             .map((subCate) => (
@@ -99,7 +97,9 @@ export default function ViewCate() {
                                     <p>Category Name: {subCate.categoryName}</p>
                                     <button className='btn btn-primary btn-block mb-4' onClick={() => deleteCategoryS(subCate._id)} >Delete sub category</button>
                                     <h5>Sub-sub-categories:</h5>
-
+                                    {
+                                        //Sub-sub category list:
+                                    }
                                     {ssubCateList
                                         .filter(filCate => filCate.parentID === subCate._id && filCate.categoryType === 'ssub')
                                         .map((ssubCate) => (
