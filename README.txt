@@ -38,4 +38,4 @@ Instruction to run app:
     phone: 123 
     password: 123
 
-8. Presentation Link:
+8. Presentation Link: https://www.youtube.com/watch?v=Q5jFoHzlURw&ab_channel=KhoaQuynh
